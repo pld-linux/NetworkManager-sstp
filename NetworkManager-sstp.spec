@@ -1,23 +1,27 @@
-# TODO: GTK4 variant for GNOME42 (--with-gtk4, requires libnma-gtk4 >= 1.8.33)
+#
+# Conditional build:
+%bcond_without	gtk4	# Gtk4 version of editor plugin (GNOME 42+)
+
 Summary:	NetworkManager VPN integration for SSTP
 Summary(pl.UTF-8):	Integracja NetworkManagera z protokołem SSTP
 Name:		NetworkManager-sstp
-Version:	1.3.0
+Version:	1.3.1
 Release:	1
 License:	GPL v2+
 Group:		X11/Applications
 Source0:	https://download.gnome.org/sources/NetworkManager-sstp/1.3/%{name}-%{version}.tar.xz
-# Source0-md5:	5af9156712d809bb280f925da8da480c
+# Source0-md5:	c421985dfc389b673a696503630905c1
 URL:		https://wiki.gnome.org/Projects/NetworkManager
 BuildRequires:	NetworkManager-devel >= 2:1.7.0
 BuildRequires:	NetworkManager-gtk-lib-devel >= 1.7.0
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake >= 1:1.9
-BuildRequires:	gettext-tools
+BuildRequires:	gettext-tools >= 0.20
 BuildRequires:	glib2-devel >= 1:2.40
 BuildRequires:	gnutls-devel >= 2.12
 BuildRequires:	gtk+3-devel >= 3.4
-BuildRequires:	intltool >= 0.35.0
+%{?with_gtk4:BuildRequires:	gtk4-devel >= 4.0}
+%{?with_gtk4:BuildRequires:	libnma-gtk4-devel >= 1.8.33}
 BuildRequires:	libsecret-devel >= 0.18
 BuildRequires:	libtool >= 2:2
 BuildRequires:	pkgconfig
@@ -29,6 +33,7 @@ Requires:	NetworkManager >= 2:1.7.0
 Requires:	NetworkManager-gtk-lib >= 1.7.0
 Requires:	glib2 >= 1:2.40
 Requires:	gtk+3 >= 3.4
+%{?with_gtk4:Requires:	libnma-gtk4 >= 1.8.33}
 Requires:	libsecret >= 0.18
 %requires_eq_to	ppp ppp-plugin-devel
 Requires:	sstp-client >= 1.0.10
@@ -44,7 +49,6 @@ Integracja NetworkManagera z protokołem SSTP.
 %setup -q
 
 %build
-%{__intltoolize}
 %{__libtoolize}
 %{__aclocal} -I m4
 %{__autoconf}
@@ -53,6 +57,7 @@ Integracja NetworkManagera z protokołem SSTP.
 %configure \
 	--disable-silent-rules \
 	--disable-static \
+	%{?with_gtk4:--with-gtk4} \
 	--with-pppd-plugin-dir=%{_libdir}/pppd/plugins \
 	--without-libnm-glib
 %{__make}
@@ -76,6 +81,9 @@ rm -rf $RPM_BUILD_ROOT
 %doc AUTHORS ChangeLog NEWS README TODO
 %attr(755,root,root) %{_libdir}/NetworkManager/libnm-vpn-plugin-sstp.so
 %attr(755,root,root) %{_libdir}/NetworkManager/libnm-vpn-plugin-sstp-editor.so
+%if %{with gtk4}
+%attr(755,root,root) %{_libdir}/NetworkManager/libnm-gtk4-vpn-plugin-sstp-editor.so
+%endif
 %attr(755,root,root) %{_libdir}/pppd/plugins/nm-sstp-pppd-plugin.so
 %attr(755,root,root) %{_libexecdir}/nm-sstp-auth-dialog
 %attr(755,root,root) %{_libexecdir}/nm-sstp-service
