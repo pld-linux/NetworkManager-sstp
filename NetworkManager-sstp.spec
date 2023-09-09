@@ -6,11 +6,12 @@ Summary:	NetworkManager VPN integration for SSTP
 Summary(pl.UTF-8):	Integracja NetworkManagera z protokołem SSTP
 Name:		NetworkManager-sstp
 Version:	1.3.1
-Release:	1
+Release:	2
 License:	GPL v2+
 Group:		X11/Applications
 Source0:	https://download.gnome.org/sources/NetworkManager-sstp/1.3/%{name}-%{version}.tar.xz
 # Source0-md5:	c421985dfc389b673a696503630905c1
+Patch0:		%{name}-ppp2.5.patch
 URL:		https://wiki.gnome.org/Projects/NetworkManager
 BuildRequires:	NetworkManager-devel >= 2:1.7.0
 BuildRequires:	NetworkManager-gtk-lib-devel >= 1.7.0
@@ -25,7 +26,7 @@ BuildRequires:	gtk+3-devel >= 3.4
 BuildRequires:	libsecret-devel >= 0.18
 BuildRequires:	libtool >= 2:2
 BuildRequires:	pkgconfig
-BuildRequires:	ppp-plugin-devel >= 3:2.4.9
+BuildRequires:	ppp-plugin-devel >= 3:2.5.0
 BuildRequires:	sstp-client-devel >= 1.0.10
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
@@ -47,6 +48,7 @@ Integracja NetworkManagera z protokołem SSTP.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 %{__libtoolize}
