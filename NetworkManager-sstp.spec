@@ -5,17 +5,16 @@
 Summary:	NetworkManager VPN integration for SSTP
 Summary(pl.UTF-8):	Integracja NetworkManagera z protokołem SSTP
 Name:		NetworkManager-sstp
-Version:	1.3.1
-Release:	2
+Version:	1.3.2
+Release:	1
 License:	GPL v2+
 Group:		X11/Applications
 Source0:	https://download.gnome.org/sources/NetworkManager-sstp/1.3/%{name}-%{version}.tar.xz
-# Source0-md5:	c421985dfc389b673a696503630905c1
-Patch0:		%{name}-ppp2.5.patch
+# Source0-md5:	52acb4a46dd96b7864419410fae8d76e
 URL:		https://wiki.gnome.org/Projects/NetworkManager
 BuildRequires:	NetworkManager-devel >= 2:1.7.0
-BuildRequires:	NetworkManager-gtk-lib-devel >= 1.7.0
-BuildRequires:	autoconf >= 2.59
+BuildRequires:	NetworkManager-gtk-lib-devel >= 1.8.0
+BuildRequires:	autoconf >= 2.69
 BuildRequires:	automake >= 1:1.9
 BuildRequires:	gettext-tools >= 0.20
 BuildRequires:	glib2-devel >= 1:2.40
@@ -31,7 +30,7 @@ BuildRequires:	sstp-client-devel >= 1.0.10
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
 Requires:	NetworkManager >= 2:1.7.0
-Requires:	NetworkManager-gtk-lib >= 1.7.0
+Requires:	NetworkManager-gtk-lib >= 1.8.0
 Requires:	glib2 >= 1:2.40
 Requires:	gtk+3 >= 3.4
 %{?with_gtk4:Requires:	libnma-gtk4 >= 1.8.33}
@@ -48,7 +47,6 @@ Integracja NetworkManagera z protokołem SSTP.
 
 %prep
 %setup -q
-%patch0 -p1
 
 %build
 %{__libtoolize}
@@ -60,8 +58,7 @@ Integracja NetworkManagera z protokołem SSTP.
 	--disable-silent-rules \
 	--disable-static \
 	%{?with_gtk4:--with-gtk4} \
-	--with-pppd-plugin-dir=%{_libdir}/pppd/plugins \
-	--without-libnm-glib
+	--with-pppd-plugin-dir=%{_libdir}/pppd/plugins
 %{__make}
 
 %install
