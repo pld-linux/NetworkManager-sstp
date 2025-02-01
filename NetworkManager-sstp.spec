@@ -6,7 +6,7 @@ Summary:	NetworkManager VPN integration for SSTP
 Summary(pl.UTF-8):	Integracja NetworkManagera z protokołem SSTP
 Name:		NetworkManager-sstp
 Version:	1.3.2
-Release:	2
+Release:	3
 License:	GPL v2+
 Group:		X11/Applications
 Source0:	https://download.gnome.org/sources/NetworkManager-sstp/1.3/%{name}-%{version}.tar.xz
